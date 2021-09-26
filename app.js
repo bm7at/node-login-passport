@@ -7,7 +7,7 @@ const localStrategy		= require('passport-local').Strategy;
 const bcrypt			= require('bcrypt');
 const app				= express();
 
-mongoose.connect("mongodb://localhost:27017/node-auth-yt", {
+mongoose.connect("mongodb+srv://Ben:jin77at@cluster0.dymou.mongodb.net/test?authSource=admin&replicaSet=Cluster0-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true", {
 	useNewUrlParser: true,
 	useUnifiedTopology: true
 });
@@ -78,11 +78,11 @@ function isLoggedOut(req, res, next) {
 
 // ROUTES
 app.get('/', isLoggedIn, (req, res) => {
-	res.render("index", { title: "Home" });
+	res.render("index", { title: "Home Welcome Page" });
 });
 
-app.get('/about', (req, res) => {
-	res.render("index", { title: "About" });
+app.get('/about', isLoggedIn, (req, res) => {
+	res.render("about", { title: "About" });
 });
 
 app.get('/login', isLoggedOut, (req, res) => {
@@ -115,7 +115,7 @@ app.get('/setup', async (req, res) => {
 
 	bcrypt.genSalt(10, function (err, salt) {
 		if (err) return next(err);
-		bcrypt.hash("pass", salt, function (err, hash) {
+		bcrypt.hash("jin77at", salt, function (err, hash) {
 			if (err) return next(err);
 			
 			const newAdmin = new User({
